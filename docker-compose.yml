@@ -1,0 +1,37 @@
+services:
+  backend:
+    build: 
+      dockerfile: backend.Dockerfile
+    container_name: backendContainer
+    ports:
+     - "8080:80"
+    depends_on:
+     - db
+    networks:
+     - examapp_net
+  frontend:
+    build: 
+      dockerfile: frontend.Dockerfile
+    container_name: frontendContainer
+    ports:
+     - "8000:80"
+    networks:
+     - examapp_net
+  db:
+    build: 
+      dockerfile: database.Dockerfile
+
+    container_name: databaseContainers
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: mysql
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - examapp_net
+
+networks:
+  examapp_net:
+
+volumes:
+  db_data:
